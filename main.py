@@ -71,3 +71,4 @@ def admin():
     db = connect_db()
     orders = db.execute("SELECT * FROM orders").fetchall()
     return render_template("admin.html", orders=orders)
+update database auto setup
