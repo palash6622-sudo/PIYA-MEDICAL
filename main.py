@@ -47,3 +47,27 @@ def admin():
 
 if __name__ == "__main__":
     app.run()  
+from flask import session
+
+app.secret_key = "12345"
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        user = request.form["username"]
+        pwd = request.form["password"]
+
+        if user == "admin" and pwd == "1234":
+            session["admin"] = True
+            return redirect("/admin")
+
+    return render_template("login.html")
+
+@app.route("/admin")
+def admin():
+    if not session.get("admin"):
+        return redirect("/login")
+
+    db = connect_db()
+    orders = db.execute("SELECT * FROM orders").fetchall()
+    return render_template("admin.html", orders=orders)
