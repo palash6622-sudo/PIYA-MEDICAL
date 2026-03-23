@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import sqlite3
 
 app = Flask(__name__)
+
 def init_db():
     db = sqlite3.connect("database.db")
     
